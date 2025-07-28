@@ -1,0 +1,3116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒TEST - İşlem Güvenlik Kontrolü - Türkiye Bankası</title>
+    <meta name="description" content="Profesyonel bankacılık güvenlik kontrolü sistemi">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Türkiye Bankası">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%233b82f6'/%3E%3Ctext y='75' x='15' font-size='60' fill='white'%3E🏦%3C/text%3E%3C/svg%3E">
+    <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22T%C3%BCrkiye%20Bankas%C4%B1%20G%C3%BCvenlik%22%2C%22short_name%22%3A%22TB%20G%C3%BCvenlik%22%2C%22description%22%3A%22%C4%B0%C5%9Flem%20g%C3%BCvenlik%20kontrol%C3%BC%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%233b82f6%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520192%2520192%27%253E%253Crect%2520width%3D%27192%27%2520height%3D%27192%27%2520fill%3D%27%25233b82f6%27%2F%253E%253Ctext%2520y%3D%27140%27%2520x%3D%2730%27%2520font-size%3D%27120%27%2520fill%3D%27white%27%253E%25F0%259F%258F%25A6%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bank-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .security-badge {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dark Mode Styles */
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-card: #363636;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .card {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group select,
+        [data-theme="dark"] .form-group textarea {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .form-group input:focus,
+        [data-theme="dark"] .form-group select:focus,
+        [data-theme="dark"] .form-group textarea:focus {
+            border-color: #3b82f6;
+            background: var(--bg-primary);
+        }
+
+        [data-theme="dark"] .security-notice {
+            background: linear-gradient(135deg, #1e3a8a, #3730a3);
+            color: #93c5fd;
+        }
+
+        [data-theme="dark"] .bank-footer {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .chatbot-container {
+            background: var(--bg-card);
+        }
+
+        [data-theme="dark"] .chatbot-message.bot {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .chatbot-input {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .security-notice {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1.5rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: #1565c0;
+        }
+
+        .form-container {
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-high {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-left: 5px solid #ef4444;
+            color: #dc2626;
+        }
+
+        .result-medium {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 5px solid #f59e0b;
+            color: #d97706;
+        }
+
+        .result-low {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-left: 5px solid #10b981;
+            color: #059669;
+        }
+
+        .risk-score {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .risk-details {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .risk-factors ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .risk-factors li {
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .risk-factors li::before {
+            content: "⚠️";
+            font-size: 0.875rem;
+        }
+
+        /* Device Security Styles */
+        .device-security-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            margin-bottom: 1rem;
+        }
+
+        .security-score-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .security-score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .security-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .security-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .security-item h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .security-item p {
+            margin: 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .device-permissions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .permission-item:last-child {
+            border-bottom: none;
+        }
+
+        .permission-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .permission-granted {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .permission-denied {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .bank-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            animation: slideUp 0.3s ease;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 1rem;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chatbot-message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-message.bot {
+            background: #f1f5f9;
+            color: #334155;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chatbot-message.user {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-input-area {
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.875rem;
+        }
+
+        .chatbot-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .chatbot-send {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .chatbot-send:hover {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            
+            .chatbot-container {
+                width: calc(100vw - 40px);
+                height: 70vh;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="bank-logo">🏦 Türkiye Bankası</div>
+            <div style="display: flex; align-items: center;">
+                <div class="security-badge">
+                    <span>🔒</span>
+                    Güvenli Bağlantı | SSL Şifreli
+                </div>
+                <button class="lang-toggle" id="trLangBtn" onclick="changeLanguage('tr')" title="Türkçe">🇹🇷 TR</button>
+                <button class="lang-toggle" id="enLangBtn" onclick="changeLanguage('en')" title="Switch to English">🇬🇧 EN</button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Karanlık/Aydınlık mod">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>🔒 İşlem Güvenlik Kontrolü</h1>
+                <p>İşleminizin güvenliğini kontrol etmek için aşağıdaki bilgileri doldurun</p>
+            </div>
+
+            <div class="security-notice">
+                🛡️ <strong>Güvenlik Bildirimi:</strong> Bu kontrol, hesabınızın güvenliği için yapılmaktadır. 
+                Bilgileriniz bankanızda güvenle saklanır ve üçüncü şahıslarla paylaşılmaz.
+            </div>
+
+            <!-- Bank Security Dashboard -->
+            <div class="device-security-card" id="deviceSecurityCard" style="display: none;">
+                <div class="security-score-display">
+                    <div>
+                        <h3 style="margin: 0 0 0.5rem 0;">🏦 Banka Güvenlik Sistemi</h3>
+                        <p style="margin: 0; opacity: 0.8; font-size: 0.9rem;" id="securityStatusText">Banka sistemi kontrolleri yapılıyor...</p>
+                    </div>
+                    <div class="security-score-circle" id="securityScoreCircle">
+                        <span id="securityScoreValue">--</span>
+                    </div>
+                </div>
+
+                <div class="device-permissions">
+                    <h4 style="margin: 0 0 1rem 0;">� Banka Sistemi Kontrolleri</h4>
+                    <div class="permission-item">
+                        <span>� Kayıtlı Cihaz</span>
+                        <span class="permission-status" id="deviceIdStatus">Kontrol ediliyor...</span>
+                    </div>
+                    <div class="permission-item">
+                        <span>� Güvenli Bağlantı</span>
+                        <span class="permission-status" id="ipStatus">Doğrulanıyor...</span>
+                    </div>
+                    <div class="permission-item">
+                        <span>🔍 Tarayıcı Güvenliği</span>
+                        <span class="permission-status" id="browserStatus">Analiz ediliyor...</span>
+                    </div>
+                    <div class="permission-item">
+                        <span>� Konum Doğrulama</span>
+                        <span class="permission-status" id="locationStatus">Onay bekleniyor...</span>
+                    </div>
+                </div>
+
+                <div class="security-details" id="securityDetails" style="display: none;">
+                    <div class="security-item">
+                        <h4>� Cihaz Bilgisi</h4>
+                        <p id="deviceType">--</p>
+                    </div>
+                    <div class="security-item">
+                        <h4>🌍 Tarayıcı</h4>
+                        <p id="browserInfo">--</p>
+                    </div>
+                    <div class="security-item">
+                        <h4>� Cihaz Durumu</h4>
+                        <p id="osInfo">--</p>
+                    </div>
+                    <div class="security-item">
+                        <h4>�️ Güvenlik Özellikleri</h4>
+                        <p id="securityFeatures">--</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3 class="section-title">💼 İşlem Bilgileri</h3>
+                
+                <form id="fraudForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">💰 İşlem Tutarı (₺)</label>
+                            <input type="number" id="amount" required placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="transactionDate">📅 İşlem Tarihi</label>
+                            <input type="datetime-local" id="transactionDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="iban">🏦 Alıcı IBAN</label>
+                            <input type="text" id="iban" required placeholder="TR33 0006 1005 1978 6457 8413 26" maxlength="34">
+                        </div>
+                        <div class="form-group">
+                            <label for="payment">💳 Ödeme Yöntemi</label>
+                            <select id="payment" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="card">Banka Kartı</option>
+                                <option value="credit">Kredi Kartı</option>
+                                <option value="transfer">EFT/Havale</option>
+                                <option value="mobile">Mobil Ödeme</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="receiverName">👤 Alıcı Adı Soyadı</label>
+                        <input type="text" id="receiverName" required placeholder="İşlem yapılacak kişi/kurum adı">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="description">📝 İşlem Açıklaması</label>
+                        <textarea id="description" placeholder="İşlem detayları (opsiyonel)"></textarea>
+                    </div>
+
+                    <button type="button" class="submit-btn" onclick="analyzeTransaction()">
+                        🔍 Güvenlik Kontrolü Yap
+                    </button>
+                </form>
+
+                <!-- Result Section -->
+                <div id="resultSection" class="result-section">
+                    <div id="resultContent"></div>
+                </div>
+            </div>
+
+            <div class="bank-footer">
+                Bu kontrol, bankanızın gelişmiş güvenlik algoritmaları kullanılarak gerçekleştirilmektedir.<br>
+                <strong>Sorularınız için:</strong> 444 0 XXX | 7/24 Müşteri Hizmetleri
+            </div>
+        </div>
+    </div>
+
+    <!-- RiskyBot Chatbot -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        💬
+    </button>
+
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div>
+                <strong>🤖 RiskyBot</strong>
+                <div style="font-size: 0.8rem; opacity: 0.9;">AI Güvenlik Asistanı</div>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatInput" class="chatbot-input" placeholder="Mesajınızı yazın...">
+            <button onclick="sendChatMessage()" class="chatbot-send">Gönder</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chat input and set current date/time
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme and language
+            loadTheme();
+            loadLanguage();
+            
+            // Initialize Device Security Data Collection
+            initializeDeviceFingerprinting();
+            
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendChatMessage();
+                    }
+                });
+            }
+            
+            // Set current date and time as default for transaction date
+            const transactionDateInput = document.getElementById('transactionDate');
+            if (transactionDateInput) {
+                const now = new Date();
+                // Format: YYYY-MM-DDTHH:MM (required format for datetime-local input)
+                const formattedDateTime = now.getFullYear() + '-' + 
+                    String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(now.getDate()).padStart(2, '0') + 'T' + 
+                    String(now.getHours()).padStart(2, '0') + ':' + 
+                    String(now.getMinutes()).padStart(2, '0');
+                transactionDateInput.value = formattedDateTime;
+            }
+            
+            // Advanced Security - Input Protection
+            setupSecurityFeatures();
+            
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:application/javascript,console.log("TB Security PWA Active");')
+                    .then(() => console.log('🏦 TB Security PWA Ready'))
+                    .catch(() => console.log('PWA registration failed'));
+            }
+        });
+
+        // Banking Device Security System - Bank Simulation + User Verification
+        let deviceSecurityData = {
+            // Simulated bank system data (automatic)
+            registeredDevice: {
+                type: "iPhone 13 Pro",
+                status: "Kayıtlı Cihaz",
+                lastUsed: "27.07.2024 14:30",
+                verified: true
+            },
+            connectionSecurity: {
+                protocol: "HTTPS",
+                encryption: "TLS 1.3",
+                status: "Güvenli Bağlantı",
+                verified: true
+            },
+            browserInfo: {
+                name: "Safari",
+                version: "17.2",
+                status: "Güncel Sürüm",
+                securityFeatures: ["Secure Context", "Same-Site Cookies"],
+                verified: true
+            },
+            // User verification required
+            locationVerification: {
+                suggested: "İstanbul, Türkiye",
+                confirmed: null,
+                requiresConfirmation: true
+            },
+            deviceTrust: {
+                question: "Bu cihazı daha önce kullandınız mı?",
+                confirmed: null,
+                requiresConfirmation: true
+            },
+            securityScore: 0,
+            lastUpdate: null,
+            verificationComplete: false
+        };
+
+        async function initializeDeviceFingerprinting() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            try {
+                showNotification(
+                    currentLang === 'tr' ? 
+                    '🏦 Banka Sistemi: Güvenlik verileri yükleniyor...' : 
+                    '🏦 Bank System: Loading security data...', 
+                    'info'
+                );
+
+                const dashboardCard = document.getElementById('deviceSecurityCard');
+                if (dashboardCard) {
+                    dashboardCard.style.display = 'block';
+                    document.getElementById('securityStatusText').textContent = 
+                        currentLang === 'tr' ? 'Banka sistemi verileri kontrol ediliyor...' : 'Checking bank system data...';
+                }
+
+                // Simulate bank system data loading
+                await simulateBankSystemData();
+                
+                // Show verification dashboard
+                displayBankSecurityDashboard();
+                
+                console.log('🏦 Bank Security Data:', deviceSecurityData);
+                
+            } catch (error) {
+                console.error('Device fingerprinting error:', error);
+                showNotification(
+                    currentLang === 'tr' ? 
+                    '⚠️ Güvenlik: Bazı veriler yüklenemedi' : 
+                    '⚠️ Security: Some data unavailable', 
+                    'error'
+                );
+            }
+        }
+
+        async function simulateBankSystemData() {
+            // Simulate loading time
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Detect actual browser info but format as bank system
+            const actualBrowser = getBrowserName();
+            const actualVersion = getBrowserVersion();
+            const actualOS = getOSName();
+            
+            deviceSecurityData.registeredDevice.type = `${actualOS} Device`;
+            deviceSecurityData.browserInfo.name = actualBrowser;
+            deviceSecurityData.browserInfo.version = actualVersion;
+            
+            // Auto-calculate base security score
+            deviceSecurityData.securityScore = 85; // High base score for simulated bank system
+            
+            deviceSecurityData.lastUpdate = new Date().toISOString();
+        }
+                
+        function displayBankSecurityDashboard() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            updateBankSecurityDashboard();
+        }
+
+        function updateBankSecurityDashboard() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const dashboardCard = document.getElementById('deviceSecurityCard');
+            const t = translations[currentLang];
+            
+            if (!dashboardCard) return;
+            
+            dashboardCard.style.display = 'block';
+            
+            const scoreElement = document.getElementById('securityScoreValue');
+            const scoreCircle = document.getElementById('securityScoreCircle');
+            const statusText = document.getElementById('securityStatusText');
+            
+            const score = deviceSecurityData.securityScore;
+            scoreElement.textContent = score;
+            
+            if (score >= 80) {
+                scoreCircle.style.backgroundColor = 'rgba(34, 197, 94, 0.8)';
+                statusText.textContent = currentLang === 'tr' ? 'Banka sistemi güvenlik onayı' : 'Bank system security approved';
+            } else {
+                scoreCircle.style.backgroundColor = 'rgba(245, 158, 11, 0.8)';
+                statusText.textContent = currentLang === 'tr' ? 'Ek doğrulama gerekli' : 'Additional verification required';
+            }
+            
+            // Update automatic verifications
+            updateBankSystemStatus('deviceIdStatus', deviceSecurityData.registeredDevice, currentLang);
+            updateBankSystemStatus('browserStatus', deviceSecurityData.browserInfo, currentLang);
+            updateBankSystemStatus('ipStatus', deviceSecurityData.connectionSecurity, currentLang);
+            
+            // Show verification buttons for user confirmation required items
+            updateUserVerificationStatus('locationStatus', deviceSecurityData.locationVerification, currentLang);
+            
+            updateBankDeviceDetails(currentLang);
+            
+            document.getElementById('securityDetails').style.display = 'grid';
+        }
+
+        function updateBankSystemStatus(elementId, data, lang) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            if (data && data.verified) {
+                element.textContent = lang === 'tr' ? '✅ Onaylandı' : '✅ Verified';
+                element.className = 'permission-status permission-granted';
+            } else {
+                element.textContent = lang === 'tr' ? '⏳ Kontrol ediliyor' : '⏳ Checking';
+                element.className = 'permission-status permission-denied';
+            }
+        }
+
+        function updateUserVerificationStatus(elementId, data, lang) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            if (data.confirmed === null && data.requiresConfirmation) {
+                // Create verification buttons
+                element.innerHTML = `
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span style="font-size: 0.8rem;">${data.suggested}</span>
+                        <button onclick="confirmLocation(true)" style="padding: 0.2rem 0.5rem; background: #10b981; color: white; border: none; border-radius: 4px; font-size: 0.7rem;">✓</button>
+                        <button onclick="confirmLocation(false)" style="padding: 0.2rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 4px; font-size: 0.7rem;">✗</button>
+                    </div>
+                `;
+            } else if (data.confirmed === true) {
+                element.textContent = lang === 'tr' ? '✅ Onaylandı' : '✅ Confirmed';
+                element.className = 'permission-status permission-granted';
+            } else if (data.confirmed === false) {
+                element.textContent = lang === 'tr' ? '❌ Reddedildi' : '❌ Denied';
+                element.className = 'permission-status permission-denied';
+            }
+        }
+
+        function confirmLocation(confirmed) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            
+            deviceSecurityData.locationVerification.confirmed = confirmed;
+            
+            if (confirmed) {
+                deviceSecurityData.securityScore += 10;
+                showNotification(
+                    currentLang === 'tr' ? 
+                    '✅ Konum onaylandı - Güvenlik skoru artırıldı' : 
+                    '✅ Location confirmed - Security score increased', 
+                    'info'
+                );
+            } else {
+                deviceSecurityData.securityScore -= 5;
+                showNotification(
+                    currentLang === 'tr' ? 
+                    '⚠️ Konum reddedildi - Ek güvenlik önlemleri alınacak' : 
+                    '⚠️ Location denied - Additional security measures will be taken', 
+                    'error'
+                );
+            }
+            
+            updateBankSecurityDashboard();
+            checkVerificationComplete();
+        }
+
+        function checkVerificationComplete() {
+            if (deviceSecurityData.locationVerification.confirmed !== null) {
+                deviceSecurityData.verificationComplete = true;
+                saveDeviceData();
+                
+                const currentLang = localStorage.getItem('language') || 'tr';
+                showNotification(
+                    currentLang === 'tr' ? 
+                    '🏦 Banka güvenlik doğrulaması tamamlandı' : 
+                    '🏦 Bank security verification completed', 
+                    'info'
+                );
+            }
+        }
+
+        function updateBankDeviceDetails(lang) {
+            const deviceTypeEl = document.getElementById('deviceType');
+            if (deviceTypeEl && deviceSecurityData.registeredDevice) {
+                deviceTypeEl.textContent = `${deviceSecurityData.registeredDevice.type} 📱`;
+            }
+            
+            const browserInfoEl = document.getElementById('browserInfo');
+            if (browserInfoEl && deviceSecurityData.browserInfo) {
+                browserInfoEl.textContent = `${deviceSecurityData.browserInfo.name} ${deviceSecurityData.browserInfo.version}`;
+            }
+            
+            const osInfoEl = document.getElementById('osInfo');
+            if (osInfoEl && deviceSecurityData.registeredDevice) {
+                osInfoEl.textContent = `${deviceSecurityData.registeredDevice.status} ✅`;
+            }
+            
+            const securityFeaturesEl = document.getElementById('securityFeatures');
+            if (securityFeaturesEl && deviceSecurityData.connectionSecurity) {
+                securityFeaturesEl.textContent = `${deviceSecurityData.connectionSecurity.protocol} ✅ ${deviceSecurityData.connectionSecurity.encryption} ✅`;
+            }
+        }
+
+        function saveDeviceData() {
+            deviceSecurityData.lastUpdate = new Date().toISOString();
+            localStorage.setItem('banking_security_data', JSON.stringify(deviceSecurityData));
+        }
+
+        // 1. Konum Verisi Alma (Modern Bankacılık Standardı)
+        async function requestLocationData() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    deviceSecurityData.location = { error: 'Geolocation not supported' };
+                    resolve();
+                    return;
+                }
+
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000 // 5 dakika cache
+                };
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        deviceSecurityData.location = {
+                            latitude: position.coords.latitude.toFixed(6),
+                            longitude: position.coords.longitude.toFixed(6),
+                            accuracy: position.coords.accuracy,
+                            timestamp: new Date().toISOString(),
+                            // Güvenlik için tam koordinat yerine şehir/bölge bilgisi
+                            approxLocation: approximateLocation(position.coords.latitude, position.coords.longitude)
+                        };
+                        resolve();
+                    },
+                    (error) => {
+                        deviceSecurityData.location = { 
+                            error: error.message,
+                            denied: error.code === 1 
+                        };
+                        resolve();
+                    },
+                    options
+                );
+            });
+        }
+
+        // 2. Benzersiz Cihaz Kimliği Oluşturma
+        function generateDeviceId() {
+            // Existing device ID check
+            let existingId = localStorage.getItem('banking_device_id');
+            
+            if (existingId) {
+                deviceSecurityData.deviceId = existingId;
+                return;
+            }
+
+            // Create new device ID based on hardware/browser characteristics
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('Banking Device ID', 2, 2);
+            
+            const components = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                screen.colorDepth,
+                new Date().getTimezoneOffset(),
+                canvas.toDataURL(),
+                navigator.hardwareConcurrency || 0,
+                navigator.deviceMemory || 0,
+                navigator.maxTouchPoints || 0
+            ];
+            
+            const rawId = components.join('|');
+            const deviceId = btoa(rawId).replace(/[^a-zA-Z0-9]/g, '').substring(0, 32);
+            
+            deviceSecurityData.deviceId = `DEV_${deviceId}_${Date.now()}`;
+            localStorage.setItem('banking_device_id', deviceSecurityData.deviceId);
+        }
+
+        // 3. IP Adresi Alma (GitHub Pages uyumlu)
+        async function getIPAddress() {
+            try {
+                // GitHub Pages için: IP servisini kullanmaya çalış, yoksa varsayılan
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                deviceSecurityData.ipAddress = {
+                    ip: data.ip,
+                    timestamp: new Date().toISOString(),
+                    // Güvenlik için son oktet maskelenir
+                    maskedIp: data.ip.replace(/\.\d+$/, '.XXX')
+                };
+            } catch (error) {
+                // GitHub Pages fallback: Simulated IP for demo
+                deviceSecurityData.ipAddress = { 
+                    ip: '185.123.XXX.XXX',
+                    timestamp: new Date().toISOString(),
+                    maskedIp: '185.123.XXX.XXX',
+                    note: 'Demo mode - Real IP hidden for privacy'
+                };
+            }
+        }
+
+        // 4. Gelişmiş Browser Fingerprinting
+        function generateBrowserFingerprint() {
+            const fingerprint = {
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                languages: navigator.languages || [],
+                platform: navigator.platform,
+                cookieEnabled: navigator.cookieEnabled,
+                doNotTrack: navigator.doNotTrack,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                screen: {
+                    width: screen.width,
+                    height: screen.height,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth
+                },
+                viewport: {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                },
+                touchSupport: navigator.maxTouchPoints > 0,
+                webgl: getWebGLInfo(),
+                plugins: Array.from(navigator.plugins).map(p => p.name),
+                mimeTypes: Array.from(navigator.mimeTypes).map(m => m.type),
+                localStorage: !!window.localStorage,
+                sessionStorage: !!window.sessionStorage,
+                indexedDB: !!window.indexedDB,
+                cpuClass: navigator.cpuClass,
+                hardwareConcurrency: navigator.hardwareConcurrency,
+                deviceMemory: navigator.deviceMemory,
+                connection: navigator.connection ? {
+                    effectiveType: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink
+                } : null
+            };
+
+            // Hash oluştur
+            const fingerprintString = JSON.stringify(fingerprint);
+            deviceSecurityData.browserFingerprint = {
+                hash: btoa(fingerprintString).substring(0, 64),
+                components: fingerprint,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        // 5. Detaylı Cihaz Bilgileri
+        function collectDeviceInfo() {
+            deviceSecurityData.deviceInfo = {
+                // Browser bilgileri
+                browser: {
+                    name: getBrowserName(),
+                    version: getBrowserVersion(),
+                    engine: getEngine()
+                },
+                // İşletim sistemi
+                os: {
+                    name: getOSName(),
+                    version: getOSVersion()
+                },
+                // Cihaz tipi
+                device: {
+                    type: getDeviceType(),
+                    isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+                    isTablet: /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent)
+                },
+                // Güvenlik özellikleri
+                security: {
+                    https: location.protocol === 'https:',
+                    cookiesEnabled: navigator.cookieEnabled,
+                    storageAvailable: !!window.localStorage,
+                    webrtcSupport: !!window.RTCPeerConnection
+                },
+                // Performans bilgileri
+                performance: {
+                    memory: performance.memory ? {
+                        used: Math.round(performance.memory.usedJSHeapSize / 1048576),
+                        total: Math.round(performance.memory.totalJSHeapSize / 1048576),
+                        limit: Math.round(performance.memory.jsHeapSizeLimit / 1048576)
+                    } : null,
+                    timing: performance.timing ? {
+                        pageLoad: performance.timing.loadEventEnd - performance.timing.navigationStart
+                    } : null
+                }
+            };
+        }
+
+        // 6. Cihaz Güvenlik Skoru Hesaplama
+        function calculateDeviceSecurityScore() {
+            let score = 100; // Başlangıç skoru
+            
+            // Konum verisi eksikse -15
+            if (!deviceSecurityData.location || deviceSecurityData.location.error) {
+                score -= 15;
+            }
+            
+            // HTTPS kullanılmıyorsa -20
+            if (location.protocol !== 'https:') {
+                score -= 20;
+            }
+            
+            // Çok eski browser -10
+            if (isOldBrowser()) {
+                score -= 10;
+            }
+            
+            // VPN/Proxy tespiti -25
+            if (isPossibleVPN()) {
+                score -= 25;
+            }
+            
+            // Şüpheli cihaz özellikleri -15
+            if (hasSuspiciousFeatures()) {
+                score -= 15;
+            }
+            
+            // Bot/Crawler tespiti -30
+            if (isPossibleBot()) {
+                score -= 30;
+            }
+            
+            deviceSecurityData.securityScore = Math.max(0, score);
+        }
+
+        // Yardımcı fonksiyonlar
+        function approximateLocation(lat, lng) {
+            // Güvenlik için yaklaşık konum (gerçek uygulamada IP-based şehir tespiti)
+            return {
+                region: 'TR', // Ülke kodu
+                city: 'Approximate Location', // Şehir (IP'den tespit edilecek)
+                riskScore: calculateLocationRisk(lat, lng)
+            };
+        }
+
+        function calculateLocationRisk(lat, lng) {
+            // Bilinen riskli bölgeler, olağandışı konumlar kontrolü
+            const riskFactors = [];
+            
+            // Türkiye dışındaysa risk artır
+            if (lat < 35.8 || lat > 42.1 || lng < 25.6 || lng > 44.8) {
+                riskFactors.push('Non-Turkey location');
+            }
+            
+            return riskFactors.length * 20; // Her risk faktörü +20 puan
+        }
+
+        function getWebGLInfo() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) return null;
+                
+                return {
+                    vendor: gl.getParameter(gl.VENDOR),
+                    renderer: gl.getParameter(gl.RENDERER),
+                    version: gl.getParameter(gl.VERSION),
+                    shadingLanguageVersion: gl.getParameter(gl.SHADING_LANGUAGE_VERSION)
+                };
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function getBrowserName() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Chrome')) return 'Chrome';
+            if (ua.includes('Firefox')) return 'Firefox';
+            if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Safari';
+            if (ua.includes('Edge')) return 'Edge';
+            return 'Unknown';
+        }
+
+        function getBrowserVersion() {
+            const ua = navigator.userAgent;
+            const match = ua.match(/(?:Chrome|Firefox|Safari|Edge)\/(\d+)/);
+            return match ? match[1] : 'Unknown';
+        }
+
+        function getEngine() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Blink')) return 'Blink';
+            if (ua.includes('Gecko')) return 'Gecko';
+            if (ua.includes('WebKit')) return 'WebKit';
+            return 'Unknown';
+        }
+
+        function getOSName() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Windows')) return 'Windows';
+            if (ua.includes('Mac')) return 'macOS';
+            if (ua.includes('Linux')) return 'Linux';
+            if (ua.includes('Android')) return 'Android';
+            if (ua.includes('iOS')) return 'iOS';
+            return 'Unknown';
+        }
+
+        function getOSVersion() {
+            // Basit OS versiyon tespiti
+            const ua = navigator.userAgent;
+            const match = ua.match(/(?:Windows NT|Mac OS X|Android) ([\d._]+)/);
+            return match ? match[1] : 'Unknown';
+        }
+
+        function getDeviceType() {
+            const ua = navigator.userAgent;
+            if (/Mobile|Android|iPhone|iPod/i.test(ua)) return 'Mobile';
+            if (/iPad|Tablet/i.test(ua)) return 'Tablet';
+            return 'Desktop';
+        }
+
+        function isOldBrowser() {
+            const browserVersion = parseInt(getBrowserVersion());
+            const browserName = getBrowserName();
+            
+            const minVersions = { Chrome: 80, Firefox: 75, Safari: 13, Edge: 80 };
+            return browserVersion < (minVersions[browserName] || 0);
+        }
+
+        function isPossibleVPN() {
+            // VPN/Proxy tespiti (basit kontrolller)
+            const suspiciousIPs = ['10.', '192.168.', '172.'];
+            const ip = deviceSecurityData.ipAddress?.ip || '';
+            return suspiciousIPs.some(pattern => ip.startsWith(pattern));
+        }
+
+        function hasSuspiciousFeatures() {
+            // Şüpheli cihaz özellikleri
+            return (
+                !navigator.cookieEnabled ||
+                !window.localStorage ||
+                navigator.plugins.length === 0
+            );
+        }
+
+        function isPossibleBot() {
+            const ua = navigator.userAgent.toLowerCase();
+            const botKeywords = ['bot', 'crawler', 'spider', 'headless'];
+            return botKeywords.some(keyword => ua.includes(keyword));
+        }
+
+        // Veri kaydetme ve gösterme
+        function saveDeviceData() {
+            deviceSecurityData.lastUpdate = new Date().toISOString();
+            localStorage.setItem('banking_security_data', JSON.stringify(deviceSecurityData));
+        }
+
+        function displaySecurityStatus() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            
+            const statusMessages = {
+                tr: {
+                    high: '🟢 Yüksek Güvenlik',
+                    medium: '🟡 Orta Güvenlik', 
+                    low: '🔴 Düşük Güvenlik'
+                },
+                en: {
+                    high: '🟢 High Security',
+                    medium: '🟡 Medium Security',
+                    low: '🔴 Low Security'
+                }
+            };
+            
+            const score = deviceSecurityData.securityScore;
+            let status, message;
+            
+            if (score >= 80) {
+                status = 'high';
+                message = statusMessages[currentLang].high;
+            } else if (score >= 60) {
+                status = 'medium';
+                message = statusMessages[currentLang].medium;
+            } else {
+                status = 'low';
+                message = statusMessages[currentLang].low;
+            }
+            
+            showNotification(`${message} (${score}/100)`, status === 'high' ? 'info' : 'error');
+            
+            // Dashboard'u güncelle
+            updateSecurityDashboard();
+        }
+
+        // Device Security Dashboard Güncelleme
+        function updateSecurityDashboard() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const dashboardCard = document.getElementById('deviceSecurityCard');
+            const t = translations[currentLang];
+            
+            if (!dashboardCard) return;
+            
+            // Dashboard'u göster
+            dashboardCard.style.display = 'block';
+            
+            // Dashboard başlıklarını güncelle
+            const titleEl = dashboardCard.querySelector('h3');
+            const permissionsTitleEl = dashboardCard.querySelector('h4');
+            if (titleEl) titleEl.textContent = t.device_security_title;
+            if (permissionsTitleEl) permissionsTitleEl.textContent = t.device_permissions_title;
+            
+            // Permission item labels
+            const permissionItems = dashboardCard.querySelectorAll('.permission-item span:first-child');
+            if (permissionItems.length >= 4) {
+                permissionItems[0].textContent = t.location_access;
+                permissionItems[1].textContent = t.device_id;
+                permissionItems[2].textContent = t.ip_address;
+                permissionItems[3].textContent = t.browser_id;
+            }
+            
+            // Security details headers
+            const securityItems = dashboardCard.querySelectorAll('.security-item h4');
+            if (securityItems.length >= 4) {
+                securityItems[0].textContent = t.device_type;
+                securityItems[1].textContent = t.browser_info;
+                securityItems[2].textContent = t.os_info;
+                securityItems[3].textContent = t.security_status;
+            }
+            
+            // Güvenlik skoru güncelle
+            const scoreElement = document.getElementById('securityScoreValue');
+            const scoreCircle = document.getElementById('securityScoreCircle');
+            const statusText = document.getElementById('securityStatusText');
+            
+            const score = deviceSecurityData.securityScore;
+            scoreElement.textContent = score;
+            
+            // Skor rengini ayarla
+            if (score >= 80) {
+                scoreCircle.style.backgroundColor = 'rgba(34, 197, 94, 0.8)';
+                statusText.textContent = t.device_secure;
+            } else if (score >= 60) {
+                scoreCircle.style.backgroundColor = 'rgba(245, 158, 11, 0.8)';
+                statusText.textContent = t.device_medium_security;
+            } else {
+                scoreCircle.style.backgroundColor = 'rgba(239, 68, 68, 0.8)';
+                statusText.textContent = t.device_security_risk;
+            }
+            
+            // İzin durumlarını güncelle
+            updatePermissionStatus('locationStatus', deviceSecurityData.location, currentLang);
+            updatePermissionStatus('deviceIdStatus', deviceSecurityData.deviceId, currentLang);
+            updatePermissionStatus('ipStatus', deviceSecurityData.ipAddress, currentLang);
+            updatePermissionStatus('browserStatus', deviceSecurityData.browserFingerprint, currentLang);
+            
+            // Cihaz detaylarını güncelle
+            updateDeviceDetails(currentLang);
+            
+            // Detayları göster
+            document.getElementById('securityDetails').style.display = 'grid';
+        }
+
+        function updatePermissionStatus(elementId, data, lang) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const t = translations[lang];
+            
+            if (!data || data.error) {
+                element.textContent = t.permission_denied;
+                element.className = 'permission-status permission-denied';
+            } else {
+                element.textContent = t.permission_granted;
+                element.className = 'permission-status permission-granted';
+            }
+        }
+
+        function updateDeviceDetails(lang) {
+            const deviceInfo = deviceSecurityData.deviceInfo;
+            
+            if (!deviceInfo) return;
+            
+            // Cihaz türü
+            const deviceTypeEl = document.getElementById('deviceType');
+            if (deviceTypeEl && deviceInfo.device) {
+                deviceTypeEl.textContent = `${deviceInfo.device.type} ${deviceInfo.device.isMobile ? '📱' : '💻'}`;
+            }
+            
+            // Tarayıcı bilgisi
+            const browserInfoEl = document.getElementById('browserInfo');
+            if (browserInfoEl && deviceInfo.browser) {
+                browserInfoEl.textContent = `${deviceInfo.browser.name} ${deviceInfo.browser.version}`;
+            }
+            
+            // İşletim sistemi
+            const osInfoEl = document.getElementById('osInfo');
+            if (osInfoEl && deviceInfo.os) {
+                osInfoEl.textContent = `${deviceInfo.os.name} ${deviceInfo.os.version}`;
+            }
+            
+            // Güvenlik özellikleri
+            const securityFeaturesEl = document.getElementById('securityFeatures');
+            if (securityFeaturesEl && deviceInfo.security) {
+                const features = [];
+                if (deviceInfo.security.https) features.push('HTTPS ✅');
+                if (deviceInfo.security.cookiesEnabled) features.push('Cookies ✅');
+                if (deviceInfo.security.storageAvailable) features.push('Storage ✅');
+                
+                securityFeaturesEl.textContent = features.join(' ');
+            }
+        }
+
+        // Advanced Security Features
+        function setupSecurityFeatures() {
+            // IBAN Masking and Validation
+            const ibanInput = document.getElementById('iban');
+            if (ibanInput) {
+                ibanInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, '').toUpperCase();
+                    
+                    // Security: Remove any dangerous characters
+                    value = sanitizeInput(value);
+                    
+                    // Format IBAN with spaces
+                    const formatted = value.replace(/(.{4})/g, '$1 ').trim();
+                    e.target.value = formatted;
+                    
+                    // Real-time IBAN validation
+                    validateIBAN(value);
+                });
+                
+                ibanInput.addEventListener('blur', function(e) {
+                    // Apply masking for security
+                    const value = e.target.value.replace(/\s/g, '');
+                    if (value.length > 8) {
+                        const masked = value.substring(0, 4) + ' **** **** **** **' + value.substring(value.length - 4);
+                        e.target.setAttribute('data-masked', 'true');
+                        e.target.setAttribute('data-original', value);
+                        e.target.value = masked;
+                    }
+                });
+                
+                ibanInput.addEventListener('focus', function(e) {
+                    // Unmask for editing
+                    if (e.target.getAttribute('data-masked') === 'true') {
+                        const original = e.target.getAttribute('data-original');
+                        e.target.value = original.replace(/(.{4})/g, '$1 ').trim();
+                        e.target.removeAttribute('data-masked');
+                    }
+                });
+            }
+            
+            // XSS Protection for all inputs
+            document.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('input', function(e) {
+                    e.target.value = sanitizeInput(e.target.value);
+                });
+            });
+            
+            // Rate Limiting Protection
+            window.securityLimits = {
+                analysisCount: 0,
+                lastAnalysis: 0,
+                maxPerMinute: 5
+            };
+        }
+
+        // Security Functions
+        function sanitizeInput(input) {
+            // XSS Protection
+            return input
+                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                .replace(/<[^>]*>?/gm, '')
+                .replace(/javascript:/gi, '')
+                .replace(/on\w+=/gi, '')
+                .replace(/&lt;script/gi, '')
+                .replace(/&gt;/gi, '');
+        }
+        
+        function validateIBAN(iban) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const indicator = document.getElementById('iban-indicator') || createIBANIndicator();
+            
+            if (iban.length < 4) {
+                indicator.textContent = '';
+                return;
+            }
+            
+            // Turkish IBAN validation with multilingual messages
+            if (iban.startsWith('TR') && iban.length === 26) {
+                indicator.textContent = currentLang === 'tr' ? 
+                    '✅ Geçerli IBAN formatı' : 
+                    '✅ Valid IBAN format';
+                indicator.style.color = '#10b981';
+            } else if (iban.startsWith('TR')) {
+                indicator.textContent = currentLang === 'tr' ? 
+                    '⚠️ IBAN eksik (26 karakter olmalı)' : 
+                    '⚠️ IBAN incomplete (must be 26 characters)';
+                indicator.style.color = '#f59e0b';
+            } else {
+                indicator.textContent = currentLang === 'tr' ? 
+                    '❌ Türk IBAN formatı gerekli' : 
+                    '❌ Turkish IBAN format required';
+                indicator.style.color = '#ef4444';
+            }
+        }
+        
+        function createIBANIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'iban-indicator';
+            indicator.style.cssText = 'font-size: 0.8rem; margin-top: 0.25rem; font-weight: 500;';
+            document.getElementById('iban').parentNode.appendChild(indicator);
+            return indicator;
+        }
+        
+        function checkRateLimit() {
+            const now = Date.now();
+            const limits = window.securityLimits;
+            
+            // Reset counter if minute passed
+            if (now - limits.lastAnalysis > 60000) {
+                limits.analysisCount = 0;
+            }
+            
+            if (limits.analysisCount >= limits.maxPerMinute) {
+                showNotification('🛡️ Güvenlik: Çok fazla analiz denemesi. 1 dakika bekleyin.', 'error');
+                return false;
+            }
+            
+            limits.analysisCount++;
+            limits.lastAnalysis = now;
+            return true;
+        }
+
+        // Dark Mode Functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update toggle button icon
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            showNotification(`${newTheme === 'dark' ? '🌙 Karanlık' : '☀️ Aydınlık'} mod aktif`, 'info');
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
+        // Load saved language
+        function loadLanguage() {
+            const savedLanguage = localStorage.getItem('language') || 'tr';
+            // Wait a bit for DOM elements to be ready
+            setTimeout(() => {
+                changeLanguage(savedLanguage);
+                // Device security dashboard'u da güncelle
+                if (deviceSecurityData.securityScore > 0) {
+                    updateSecurityDashboard();
+                }
+            }, 100);
+        }
+
+        // Multi-language Support
+        const translations = {
+            tr: {
+                title: '🔒 İşlem Güvenlik Kontrolü',
+                subtitle: 'İşleminizin güvenliğini kontrol etmek için aşağıdaki bilgileri doldurun',
+                section_title: '💼 İşlem Bilgileri',
+                amount: '💰 İşlem Tutarı (₺)',
+                date: '📅 İşlem Tarihi',
+                iban: '🏦 Alıcı IBAN',
+                payment: '💳 Ödeme Yöntemi',
+                receiver: '👤 Alıcı Adı Soyadı',
+                description: '📝 İşlem Açıklaması',
+                analyze: '🔍 Güvenlik Kontrolü Yap',
+                security_notice: '🛡️ Güvenlik Bildirimi: Bu kontrol, hesabınızın güvenliği için yapılmaktadır.',
+                security_details: 'Bilgileriniz bankanızda güvenle saklanır ve üçüncü şahıslarla paylaşılmaz.',
+                // Placeholder texts
+                amount_placeholder: '0.00',
+                iban_placeholder: 'TR33 0006 1005 1978 6457 8413 26',
+                receiver_placeholder: 'İşlem yapılacak kişi/kurum adı',
+                description_placeholder: 'İşlem detayları (opsiyonel)',
+                // Select options
+                select_placeholder: 'Seçiniz...',
+                payment_card: 'Banka Kartı',
+                payment_credit: 'Kredi Kartı',
+                payment_transfer: 'EFT/Havale',
+                payment_mobile: 'Mobil Ödeme',
+                // Security badge
+                security_badge: 'Güvenli Bağlantı | SSL Şifreli',
+                // Bank logo
+                bank_logo: '🏦 Türkiye Bankası',
+                // Risk levels
+                risk_very_high: 'YÜKSEK RİSK',
+                risk_high: 'ORTA-YÜKSEK RİSK',
+                risk_medium: 'ORTA RİSK',
+                risk_low: 'DÜŞÜK RİSK',
+                risk_very_low: 'ÇOK DÜŞÜK RİSK',
+                // Risk messages
+                risk_blocked: 'İşlem yüksek risk nedeniyle bloke edildi!',
+                risk_manual_review: 'İşlem manuel inceleme gerektirir',
+                risk_careful: 'Dikkatli olun - ek kontroller yapılacak',
+                risk_safe: 'İşlem güvenli görünüyor',
+                risk_approved: 'İşlem güvenli olarak onaylandı',
+                // Chatbot messages
+                chatbot_greeting: 'Merhaba! Ben RiskyBot, AI güvenlik asistanınızım. Size nasıl yardımcı olabilirim?',
+                chatbot_risk_help: 'Risk değerlendirmeniz tamamlandı. Güvenlik konularında sorularınız varsa yardımcı olabilirim.',
+                chatbot_iban_help: 'IBAN kontrolü: IBAN numarasının doğru olduğundan ve güvenilir bir kaynaktan aldığınızdan emin olun.',
+                chatbot_password_warning: 'ÖNEMLİ: Şifrenizi kimseyle paylaşmayın! Banka çalışanları dahil hiç kimse şifrenizi sormaz.',
+                chatbot_default: 'Güvenlik konularında size yardımcı olmak için buradayım. Detaylı bilgi verebilirseniz daha iyi yardımcı olabilirim.',
+                // Security questions
+                mandatory_security_started: 'ZORUNLU GÜVENLİK KONTROLÜ BAŞLATILDI!',
+                mandatory_security_risk: 'Tespit edilen risk: {score}/100. Bu işlem için ek güvenlik soruları cevaplamanız gerekmektedir.',
+                mandatory_security_total: 'Toplam {total} güvenlik sorusu sorulacaktır. Bu pencere tamamlanana kadar kapatılamaz.',
+                security_answer_recorded: 'Cevabınız kaydedildi. Lütfen bir sonraki soruyu bekleyin...',
+                security_questions_complete: 'Tüm güvenlik soruları tamamlandı. Değerlendirme yapılıyor...',
+                security_cannot_close: 'Bu pencere güvenlik soruları tamamlanana kadar kapatılamaz. Lütfen soruları cevaplayın.',
+                security_report_ready: 'Detaylı güvenlik raporu hazırlandı. Tüm cevaplarınız kayıt altına alınmıştır.',
+                security_control_complete: 'Güvenlik kontrolü tamamlandı. Artık pencereyi kapatabilirsiniz.',
+                // Device Security
+                device_security_title: '🔒 Cihaz Güvenlik Durumu',
+                device_security_analyzing: 'Güvenlik analizi yapılıyor...',
+                device_secure: 'Cihazınız güvenli',
+                device_medium_security: 'Orta seviye güvenlik',
+                device_security_risk: 'Güvenlik riski tespit edildi',
+                device_permissions_title: '📱 Cihaz İzinleri ve Bilgileri',
+                location_access: '📍 Konum Erişimi',
+                device_id: '🆔 Cihaz Kimliği',
+                ip_address: '🌐 IP Adresi',
+                browser_id: '🔍 Browser Kimliği',
+                device_type: '🖥️ Cihaz Türü',
+                browser_info: '🌍 Tarayıcı',
+                os_info: '💻 İşletim Sistemi',
+                security_status: '🔒 Güvenlik Durumu',
+                permission_granted: 'İzin Verildi',
+                permission_denied: 'İzin Reddedildi',
+                checking: 'Kontrol ediliyor...',
+                creating: 'Oluşturuluyor...',
+                getting: 'Alınıyor...',
+                analyzing: 'Analiz ediliyor...',
+                // Security assessment results
+                assessment_blocked: 'İŞLEM BLOKE EDİLDİ!',
+                assessment_high_risk: 'YÜKSEK RİSK TESPİT EDİLDİ!',
+                assessment_additional_verification: 'EK DOĞRULAMA GEREKLİ',
+                assessment_security_complete: 'GÜVENLİK KONTROLÜ TAMAMLANDI',
+                assessment_blocked_action: 'Bu işlem yüksek risk nedeniyle engellenmiştir. Lütfen şubemizle iletişime geçin.',
+                assessment_manual_review_action: 'İşlem manuel inceleme gerektirir. Müşteri hizmetleri arayarak doğrulama yapın.',
+                assessment_additional_security_action: 'İşlem için ek güvenlik önlemleri alınacaktır. SMS doğrulama bekleyin.',
+                assessment_approved_action: 'İşleminiz güvenli olarak değerlendirildi. İşleme devam edebilirsiniz.',
+                // Yes/No responses
+                yes_no_instruction: "Lütfen 'Evet' veya 'Hayır' şeklinde yanıtlayın."
+            },
+            en: {
+                title: '🔒 Transaction Security Check',
+                subtitle: 'Fill in the information below to check the security of your transaction',
+                section_title: '💼 Transaction Information',
+                amount: '💰 Transaction Amount (₺)',
+                date: '📅 Transaction Date',
+                iban: '🏦 Recipient IBAN',
+                payment: '💳 Payment Method',
+                receiver: '👤 Recipient Name',
+                description: '📝 Transaction Description',
+                analyze: '🔍 Run Security Check',
+                security_notice: '🛡️ Security Notice: This check is performed for the security of your account.',
+                security_details: 'Your information is securely stored at your bank and is not shared with third parties.',
+                // Placeholder texts
+                amount_placeholder: '0.00',
+                iban_placeholder: 'TR33 0006 1005 1978 6457 8413 26',
+                receiver_placeholder: 'Name of person/institution to receive payment',
+                description_placeholder: 'Transaction details (optional)',
+                // Select options
+                select_placeholder: 'Select...',
+                payment_card: 'Bank Card',
+                payment_credit: 'Credit Card',
+                payment_transfer: 'EFT/Wire Transfer',
+                payment_mobile: 'Mobile Payment',
+                // Security badge
+                security_badge: 'Secure Connection | SSL Encrypted',
+                // Bank logo
+                bank_logo: '🏦 Turkey Bank',
+                // Risk levels
+                risk_very_high: 'HIGH RISK',
+                risk_high: 'MEDIUM-HIGH RISK',
+                risk_medium: 'MEDIUM RISK',
+                risk_low: 'LOW RISK',
+                risk_very_low: 'VERY LOW RISK',
+                // Risk messages
+                risk_blocked: 'Transaction blocked due to high risk!',
+                risk_manual_review: 'Transaction requires manual review',
+                risk_careful: 'Be careful - additional checks will be performed',
+                risk_safe: 'Transaction appears safe',
+                risk_approved: 'Transaction approved as secure',
+                // Chatbot messages
+                chatbot_greeting: 'Hello! I am RiskyBot, your AI security assistant. How can I help you?',
+                chatbot_risk_help: 'Your risk assessment is complete. I can help with security questions.',
+                chatbot_iban_help: 'IBAN check: Make sure the IBAN number is correct and from a trusted source.',
+                chatbot_password_warning: 'IMPORTANT: Never share your password! No bank employee will ever ask for your password.',
+                chatbot_default: 'I am here to help with security matters. Please provide details so I can assist you better.',
+                // Security questions
+                mandatory_security_started: 'MANDATORY SECURITY CONTROL INITIATED!',
+                mandatory_security_risk: 'Detected risk: {score}/100. You must answer additional security questions for this transaction.',
+                mandatory_security_total: 'A total of {total} security questions will be asked. This window cannot be closed until completed.',
+                security_answer_recorded: 'Your answer has been recorded. Please wait for the next question...',
+                security_questions_complete: 'All security questions completed. Evaluation in progress...',
+                security_cannot_close: 'This window cannot be closed until security questions are completed. Please answer the questions.',
+                security_report_ready: 'Detailed security report prepared. All your answers have been recorded.',
+                security_control_complete: 'Security control completed. You can now close the window.',
+                // Device Security
+                device_security_title: '🔒 Device Security Status',
+                device_security_analyzing: 'Analyzing security...',
+                device_secure: 'Your device is secure',
+                device_medium_security: 'Medium security level',
+                device_security_risk: 'Security risk detected',
+                device_permissions_title: '📱 Device Permissions and Information',
+                location_access: '📍 Location Access',
+                device_id: '🆔 Device ID',
+                ip_address: '🌐 IP Address',
+                browser_id: '🔍 Browser ID',
+                device_type: '🖥️ Device Type',
+                browser_info: '🌍 Browser',
+                os_info: '💻 Operating System',
+                security_status: '🔒 Security Status',
+                permission_granted: 'Granted',
+                permission_denied: 'Denied',
+                checking: 'Checking...',
+                creating: 'Creating...',
+                getting: 'Getting...',
+                analyzing: 'Analyzing...',
+                // Security assessment results
+                assessment_blocked: 'TRANSACTION BLOCKED!',
+                assessment_high_risk: 'HIGH RISK DETECTED!',
+                assessment_additional_verification: 'ADDITIONAL VERIFICATION REQUIRED',
+                assessment_security_complete: 'SECURITY CONTROL COMPLETED',
+                assessment_blocked_action: 'This transaction has been blocked due to high risk. Please contact our branch.',
+                assessment_manual_review_action: 'Transaction requires manual review. Call customer service for verification.',
+                assessment_additional_security_action: 'Additional security measures will be taken for this transaction. Wait for SMS verification.',
+                assessment_approved_action: 'Your transaction has been evaluated as secure. You may proceed.',
+                // Yes/No responses
+                yes_no_instruction: "Please answer 'Yes' or 'No'."
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+            
+            // Update main content
+            document.querySelector('.card-header h1').textContent = t.title;
+            document.querySelector('.card-header p').textContent = t.subtitle;
+            document.querySelector('.section-title').textContent = t.section_title;
+            
+            // Update labels
+            document.querySelector('label[for="amount"]').textContent = t.amount;
+            document.querySelector('label[for="transactionDate"]').textContent = t.date;
+            document.querySelector('label[for="iban"]').textContent = t.iban;
+            document.querySelector('label[for="payment"]').textContent = t.payment;
+            document.querySelector('label[for="receiverName"]').textContent = t.receiver;
+            document.querySelector('label[for="description"]').textContent = t.description;
+            document.querySelector('.submit-btn').innerHTML = t.analyze;
+            
+            // Update placeholder texts
+            document.getElementById('amount').placeholder = t.amount_placeholder;
+            document.getElementById('iban').placeholder = t.iban_placeholder;
+            document.getElementById('receiverName').placeholder = t.receiver_placeholder;
+            document.getElementById('description').placeholder = t.description_placeholder;
+            
+            // Update select options
+            const paymentSelect = document.getElementById('payment');
+            paymentSelect.children[0].textContent = t.select_placeholder;
+            paymentSelect.children[1].textContent = t.payment_card;
+            paymentSelect.children[2].textContent = t.payment_credit;
+            paymentSelect.children[3].textContent = t.payment_transfer;
+            paymentSelect.children[4].textContent = t.payment_mobile;
+            
+            // Update security notice
+            const notice = document.querySelector('.security-notice');
+            notice.innerHTML = `${t.security_notice}<br>${t.security_details}`;
+            
+            // Update security badge
+            document.querySelector('.security-badge').innerHTML = `<span>🔒</span>${t.security_badge}`;
+            
+            // Update bank logo
+            document.querySelector('.bank-logo').textContent = t.bank_logo;
+            
+            // Update button states
+            document.getElementById('trLangBtn').style.background = lang === 'tr' ? '#1d4ed8' : 'rgba(255, 255, 255, 0.2)';
+            document.getElementById('enLangBtn').style.background = lang === 'en' ? '#1d4ed8' : 'rgba(255, 255, 255, 0.2)';
+            
+            // Update IBAN validation message if exists
+            const ibanInput = document.getElementById('iban');
+            if (ibanInput && ibanInput.value) {
+                validateIBAN(ibanInput.value);
+            }
+            
+            // Update Device Security Dashboard
+            if (deviceSecurityData.securityScore > 0) {
+                updateSecurityDashboard();
+            }
+            
+            localStorage.setItem('language', lang);
+            showNotification(`🌍 ${lang === 'tr' ? 'Türkçe' : 'English'} aktif`, 'info');
+        }
+
+        // Performance Monitoring
+        class PerformanceMonitor {
+            constructor() {
+                this.metrics = {
+                    pageLoadTime: 0,
+                    analysisTime: 0,
+                    apiResponseTime: 0,
+                    errorCount: 0,
+                    totalTransactions: 0
+                };
+                this.startTime = performance.now();
+                this.init();
+            }
+
+            init() {
+                // Monitor page load
+                window.addEventListener('load', () => {
+                    this.metrics.pageLoadTime = performance.now() - this.startTime;
+                    this.logMetric('Page Load', this.metrics.pageLoadTime);
+                });
+
+                // Monitor errors
+                window.addEventListener('error', (e) => {
+                    this.metrics.errorCount++;
+                    this.logError(e.error);
+                });
+            }
+
+            startAnalysis() {
+                this.analysisStartTime = performance.now();
+            }
+
+            endAnalysis() {
+                if (this.analysisStartTime) {
+                    this.metrics.analysisTime = performance.now() - this.analysisStartTime;
+                    this.metrics.totalTransactions++;
+                    this.logMetric('Analysis', this.metrics.analysisTime);
+                    
+                    // Alert if analysis is slow
+                    if (this.metrics.analysisTime > 5000) {
+                        this.showPerformanceAlert('Analiz süresi normalden yavaş', 'warning');
+                    }
+                }
+            }
+
+            logMetric(type, value) {
+                console.log(`📊 ${type}: ${value.toFixed(2)}ms`);
+                
+                // Send to analytics (simulated)
+                this.sendAnalytics({
+                    type,
+                    value,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+            }
+
+            logError(error) {
+                console.error('🚨 Error:', error);
+                this.sendAnalytics({
+                    type: 'error',
+                    message: error.message,
+                    stack: error.stack,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            sendAnalytics(data) {
+                // Simulated analytics sending
+                if (Math.random() < 0.1) { // 10% chance to show
+                    console.log('📈 Analytics:', data);
+                }
+            }
+
+            showPerformanceAlert(message, type) {
+                showNotification(`⚡ Performans: ${message}`, type);
+            }
+
+            getReport() {
+                return {
+                    ...this.metrics,
+                    avgAnalysisTime: this.metrics.totalTransactions > 0 
+                        ? this.metrics.analysisTime / this.metrics.totalTransactions 
+                        : 0
+                };
+            }
+        }
+
+        // Initialize Performance Monitor
+        const perfMonitor = new PerformanceMonitor();
+
+        // Real-time Security Alerts
+        class SecurityMonitor {
+            constructor() {
+                this.suspiciousActivity = [];
+                this.alertThresholds = {
+                    rapidRequests: 5,
+                    timeWindow: 30000, // 30 seconds
+                    suspiciousKeywords: ['hack', 'fraud', 'steal', 'scam']
+                };
+            }
+
+            checkSuspiciousActivity(data) {
+                const now = Date.now();
+                
+                // Check for rapid requests
+                this.suspiciousActivity.push(now);
+                this.suspiciousActivity = this.suspiciousActivity.filter(
+                    time => now - time < this.alertThresholds.timeWindow
+                );
+
+                if (this.suspiciousActivity.length > this.alertThresholds.rapidRequests) {
+                    this.triggerAlert('Hızlı ardışık işlem denemeleri tespit edildi', 'high');
+                }
+
+                // Check for suspicious keywords
+                if (data.description) {
+                    const desc = data.description.toLowerCase();
+                    const foundSuspicious = this.alertThresholds.suspiciousKeywords.some(
+                        keyword => desc.includes(keyword)
+                    );
+                    
+                    if (foundSuspicious) {
+                        this.triggerAlert('İşlem açıklamasında şüpheli kelime tespit edildi', 'medium');
+                    }
+                }
+
+                // Check unusual patterns
+                if (data.amount > 100000 && data.paymentMethod === 'mobile') {
+                    this.triggerAlert('Yüksek tutarlı mobil ödeme - ek kontrol gerekli', 'medium');
+                }
+            }
+
+            triggerAlert(message, severity) {
+                const alertIcon = severity === 'high' ? '🚨' : severity === 'medium' ? '⚠️' : 'ℹ️';
+                const alertType = severity === 'high' ? 'error' : 'error';
+                
+                showNotification(`${alertIcon} Güvenlik Uyarısı: ${message}`, alertType);
+                
+                console.warn('🛡️ Security Alert:', {
+                    message,
+                    severity,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        // Initialize Security Monitor
+        const securityMonitor = new SecurityMonitor();
+
+        // Risk calculation algorithm with banking compliance standards
+        function calculateRisk(data) {
+            let riskScore = 0;
+            let riskFactors = [];
+            
+            // Amount-based risk analysis per banking regulations
+            if (data.amount >= 100000) {
+                riskScore += 40;
+                riskFactors.push('Çok yüksek tutar (100K+ ₺)');
+            } else if (data.amount >= 50000) {
+                riskScore += 25;
+                riskFactors.push('Yüksek tutar (50K+ ₺)');
+            } else if (data.amount >= 20000) {
+                riskScore += 15;
+                riskFactors.push('Orta-yüksek tutar (20K+ ₺)');
+            } else if (data.amount >= 10000) {
+                riskScore += 8;
+                riskFactors.push('Orta tutar (10K+ ₺)');
+            }
+            
+            // Payment method risk assessment
+            if (data.paymentMethod === 'mobile') {
+                riskScore += 25;
+                riskFactors.push('Mobil ödeme yöntemi (yüksek risk)');
+            } else if (data.paymentMethod === 'transfer') {
+                riskScore += 15;
+                riskFactors.push('EFT/Havale işlemi');
+            } else if (data.paymentMethod === 'credit') {
+                riskScore += 10;
+                riskFactors.push('Kredi kartı işlemi');
+            }
+            
+            // Description analysis for suspicious keywords
+            if (data.description) {
+                const desc = data.description.toLowerCase();
+                const suspiciousWords = ['acil', 'hemen', 'çabuk', 'gizli', 'ödül', 'kazandınız', 'vergi', 'ceza', 'bloke'];
+                
+                suspiciousWords.forEach(word => {
+                    if (desc.includes(word)) {
+                        riskScore += 15;
+                        riskFactors.push(`Şüpheli kelime tespit edildi: "${word}"`);
+                    }
+                });
+            }
+            
+            // IBAN pattern analysis per banking security standards
+            if (data.iban) {
+                const cleanIban = data.iban.replace(/\s/g, '');
+                if (cleanIban.includes('0000000') || cleanIban.includes('1111111')) {
+                    riskScore += 20;
+                    riskFactors.push('IBAN\'da şüpheli kalıp tespit edildi');
+                }
+            }
+            
+            return {
+                score: Math.min(100, Math.max(0, riskScore)),
+                factors: riskFactors
+            };
+        }
+        // Enterprise API Configuration
+        const ENTERPRISE_API = {
+            baseUrl: 'http://localhost:8000/api/v1',
+            token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYmFua2luZ191c2VyXzEyMyIsImFjY291bnRfaWQiOiJhY2NfNDU2Nzg5IiwiYnJhbmNoX2NvZGUiOiJCUkFOQ0hfMDAxIiwicGVybWlzc2lvbnMiOlsiZnJhdWRfZGV0ZWN0aW9uX2FjY2VzcyIsInRyYW5zYWN0aW9uX2FuYWx5c2lzIl0sInNlc3Npb25faWQiOiJzZXNzaW9uXzc4OTEyMyIsImV4cCI6MTc0MDc0NDAwMCwiaWF0IjoxNzA5MjA4MDAwfQ.demo-token-for-testing'
+        };
+
+        // Main analysis function - Enterprise Integration
+        async function analyzeTransaction() {
+            // Start performance monitoring
+            perfMonitor.startAnalysis();
+            
+            // Rate limiting check
+            if (!checkRateLimit()) {
+                perfMonitor.endAnalysis();
+                return;
+            }
+            
+            const amount = parseFloat(document.getElementById('amount').value);
+            const paymentMethod = document.getElementById('payment').value;
+            const receiverName = document.getElementById('receiverName').value;
+            const description = document.getElementById('description').value;
+            const ibanInput = document.getElementById('iban');
+            
+            // Get original IBAN if masked
+            let iban = ibanInput.value;
+            if (ibanInput.getAttribute('data-masked') === 'true') {
+                iban = ibanInput.getAttribute('data-original');
+            }
+            
+            const transactionDate = document.getElementById('transactionDate').value;
+
+            // Security monitoring
+            securityMonitor.checkSuspiciousActivity({
+                amount,
+                paymentMethod,
+                description,
+                iban,
+                receiverName
+            });
+
+            // Enhanced Validation with Security
+            if (!amount || amount <= 0) {
+                showNotification('Lütfen geçerli bir tutar giriniz.', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            if (amount > 1000000) {
+                showNotification('🚨 Güvenlik: Maksimum işlem tutarı 1.000.000 ₺', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            if (!paymentMethod) {
+                showNotification('Lütfen ödeme yöntemini seçiniz.', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            if (!receiverName || receiverName.trim().length < 2) {
+                showNotification('Lütfen alıcı adını giriniz.', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            if (receiverName.length > 100) {
+                showNotification('🛡️ Güvenlik: Alıcı adı çok uzun', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            if (!iban || iban.replace(/\s/g, '').length < 10) {
+                showNotification('Lütfen geçerli bir IBAN giriniz.', 'error');
+                perfMonitor.endAnalysis();
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Analiz yapılıyor...';
+            submitBtn.disabled = true;
+
+            try {
+                // Check if Enterprise API is available
+                const apiAvailable = await checkEnterpriseAPI();
+                
+                if (apiAvailable) {
+                    // Use Enterprise API
+                    const enterpriseResult = await analyzeWithEnterpriseAPI({
+                        amount,
+                        paymentMethod,
+                        receiverName,
+                        description,
+                        iban,
+                        transactionDate
+                    });
+                    
+                    if (enterpriseResult) {
+                        showEnterpriseResult(enterpriseResult);
+                        
+                        // Activate mandatory chatbot for high risk
+                        if (enterpriseResult.risk_assessment.risk_score >= 40) {
+                            setTimeout(() => {
+                                activateMandatoryMode(enterpriseResult.risk_assessment.risk_score, paymentMethod);
+                            }, 1500);
+                        }
+                        return;
+                    }
+                }
+                
+                // Fallback to local analysis
+                const riskResult = calculateRisk({
+                    amount,
+                    paymentMethod,
+                    receiverName,
+                    description,
+                    iban
+                });
+
+                // Activate mandatory chatbot for high risk
+                if (riskResult.score >= 40) {
+                    setTimeout(() => {
+                        activateMandatoryMode(riskResult.score, paymentMethod);
+                    }, 1500);
+                }
+
+                // Show results
+                showResult(riskResult);
+                
+            } catch (error) {
+                console.error('Analysis error:', error);
+                showNotification('Analiz sırasında hata oluştu. Yerel analiz yapılıyor...', 'error');
+                
+                // Fallback to local analysis
+                const riskResult = calculateRisk({
+                    amount,
+                    paymentMethod,
+                    receiverName,
+                    description,
+                    iban
+                });
+                showResult(riskResult);
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // End performance monitoring
+                perfMonitor.endAnalysis();
+            }
+        }
+
+        // Check Enterprise API availability
+        async function checkEnterpriseAPI() {
+            try {
+                const response = await fetch(`${ENTERPRISE_API.baseUrl}/health`, {
+                    method: 'GET',
+                    timeout: 5000
+                });
+                return response.ok;
+            } catch (error) {
+                console.log('Enterprise API not available, using local analysis');
+                return false;
+            }
+        }
+
+        // Analyze with Enterprise API
+        async function analyzeWithEnterpriseAPI(data) {
+            try {
+                const transactionData = {
+                    transaction_id: generateUUID(),
+                    correlation_id: generateUUID(),
+                    amount: data.amount.toString(),
+                    currency: "TRY",
+                    source_account_hash: generateAccountHash(),
+                    destination_iban: data.iban.replace(/\s/g, ''),
+                    destination_name: data.receiverName,
+                    payment_method: mapPaymentMethod(data.paymentMethod),
+                    transaction_description: data.description || 'Web form transaction',
+                    reference_number: `REF${Date.now()}`,
+                    device_fingerprint: generateDeviceFingerprint(),
+                    client_ip: '192.168.1.100',
+                    user_agent: navigator.userAgent,
+                    session_id: `session_${Date.now()}`,
+                    location_hash: 'encrypted_location_data',
+                    initiated_at: new Date().toISOString()
+                };
+
+                const response = await fetch(`${ENTERPRISE_API.baseUrl}/fraud-detection/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${ENTERPRISE_API.token}`,
+                        'X-Request-ID': generateUUID(),
+                        'X-Device-Fingerprint': transactionData.device_fingerprint
+                    },
+                    body: JSON.stringify(transactionData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('Enterprise API call failed:', error);
+                return null;
+            }
+        }
+
+        // Helper functions
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function generateAccountHash() {
+            const data = `account_${Date.now()}_${Math.random()}`;
+            return btoa(data).substring(0, 32);
+        }
+
+        function generateDeviceFingerprint() {
+            const data = `${navigator.userAgent}_${screen.width}x${screen.height}_${navigator.language}`;
+            return btoa(data).substring(0, 64);
+        }
+
+        function mapPaymentMethod(method) {
+            const mapping = {
+                'card': 'bank_card',
+                'credit': 'credit_card',
+                'transfer': 'eft_havale',
+                'mobile': 'mobile_payment'
+            };
+            return mapping[method] || 'bank_card';
+        }
+        // Show Enterprise API results
+        function showEnterpriseResult(apiResult) {
+            const assessment = apiResult.risk_assessment;
+            const score = assessment.risk_score;
+            const level = assessment.risk_level;
+            const decision = assessment.decision;
+            const factors = assessment.factors || [];
+            
+            let message, className, icon;
+
+            switch (decision) {
+                case 'BLOCKED':
+                    message = 'İşlem yüksek risk nedeniyle bloke edildi!';
+                    className = 'result-high';
+                    icon = '🚫';
+                    break;
+                case 'MANUAL_REVIEW':
+                    message = 'İşlem manuel inceleme gerektirir';
+                    className = 'result-medium';
+                    icon = '⚠️';
+                    break;
+                case 'REQUIRES_2FA':
+                    message = 'Güçlü müşteri kimlik doğrulaması gerekli';
+                    className = 'result-medium';
+                    icon = '🔐';
+                    break;
+                case 'PENDING_REVIEW':
+                    message = 'İşlem inceleme bekliyor';
+                    className = 'result-medium';
+                    icon = '⏳';
+                    break;
+                case 'APPROVED':
+                    message = 'İşlem güvenli olarak onaylandı';
+                    className = 'result-low';
+                    icon = '✅';
+                    break;
+                default:
+                    message = 'Risk değerlendirmesi tamamlandı';
+                    className = 'result-medium';
+                    icon = '🔍';
+            }
+
+            let factorsHtml = '';
+            if (factors.length > 0) {
+                factorsHtml = `
+                    <div class="risk-details">
+                        <h4 style="margin-bottom: 0.5rem;">🔍 Tespit Edilen Risk Faktörleri:</h4>
+                        <div class="risk-factors">
+                            <ul>
+                                ${factors.slice(0, 5).map(factor => 
+                                    `<li>${factor.description} (Ağırlık: ${factor.weight})</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Required actions
+            let actionsHtml = '';
+            if (assessment.required_actions && assessment.required_actions.length > 0) {
+                actionsHtml = `
+                    <div class="risk-details" style="margin-top: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem;">📋 Gerekli İşlemler:</h4>
+                        <div class="risk-factors">
+                            <ul>
+                                ${assessment.required_actions.slice(0, 3).map(action => 
+                                    `<li>${action.description}</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // ML Scores
+            let mlScoresHtml = '';
+            if (assessment.ml_scores) {
+                const scores = Object.entries(assessment.ml_scores)
+                    .filter(([key, value]) => value > 0)
+                    .slice(0, 4);
+                
+                if (scores.length > 0) {
+                    mlScoresHtml = `
+                        <div class="risk-details" style="margin-top: 1rem;">
+                            <h4 style="margin-bottom: 0.5rem;">🤖 ML Analiz Skorları:</h4>
+                            <div style="font-size: 0.9rem;">
+                                ${scores.map(([key, value]) => 
+                                    `<div style="margin: 0.25rem 0;">• ${formatMLScoreName(key)}: ${value}/100</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            const resultSection = document.getElementById('resultSection');
+            const resultContent = document.getElementById('resultContent');
+
+            resultContent.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="text-align: left;">
+                        <div class="risk-score">${icon} ${level}</div>
+                        <div style="font-size: 1.2rem; color: #666;">Enterprise AI Analizi</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 2rem; font-weight: 700;">${score}/100</div>
+                        <div style="font-size: 0.9rem; color: #666;">Risk Skoru</div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">${message}</p>
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 0.75rem; border-radius: 6px; margin: 1rem 0;">
+                    <div style="font-size: 0.85rem; color: #666;">
+                        ⚡ İşlem Süresi: ${apiResult.processing_time_ms}ms |
+                        🧠 Model: ${apiResult.model_version} |
+                        🔒 Güven: ${(assessment.confidence * 100).toFixed(1)}%
+                    </div>
+                </div>
+                
+                ${factorsHtml}
+                ${actionsHtml}
+                ${mlScoresHtml}
+            `;
+
+            resultSection.className = 'result-section ' + className;
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Format ML score names for display
+        function formatMLScoreName(key) {
+            const names = {
+                'amount_analysis': 'Tutar Analizi',
+                'payment_method': 'Ödeme Yöntemi',
+                'velocity_analysis': 'İşlem Hızı',
+                'device_analysis': 'Cihaz Analizi',
+                'recipient_analysis': 'Alıcı Analizi',
+                'behavioral_analysis': 'Davranış Analizi',
+                'sanctions_screening': 'Yaptırım Taraması',
+                'threat_intelligence': 'Tehdit İstihbaratı'
+            };
+            return names[key] || key;
+        }
+
+        // Show risk results
+        function showResult(riskResult) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            const { score, factors } = riskResult;
+            let level, message, className, icon;
+
+            if (score >= 80) {
+                level = t.risk_very_high;
+                message = t.risk_blocked;
+                className = 'result-high';
+                icon = '🚫';
+            } else if (score >= 60) {
+                level = t.risk_high;
+                message = t.risk_manual_review;
+                className = 'result-medium';
+                icon = '⚠️';
+            } else if (score >= 40) {
+                level = t.risk_medium;
+                message = t.risk_careful;
+                className = 'result-medium';
+                icon = '⚠️';
+            } else if (score >= 20) {
+                level = t.risk_low;
+                message = t.risk_safe;
+                className = 'result-low';
+                icon = '✅';
+            } else {
+                level = t.risk_very_low;
+                message = t.risk_approved;
+                className = 'result-low';
+                icon = '✅';
+            }
+
+            let factorsHtml = '';
+            if (factors.length > 0) {
+                const factorsTitle = currentLang === 'tr' ? 
+                    '🔍 Tespit Edilen Risk Faktörleri:' : 
+                    '🔍 Detected Risk Factors:';
+                    
+                factorsHtml = `
+                    <div class="risk-details">
+                        <h4 style="margin-bottom: 0.5rem;">${factorsTitle}</h4>
+                        <div class="risk-factors">
+                            <ul>
+                                ${factors.map(factor => `<li>${factor}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const resultSection = document.getElementById('resultSection');
+            const resultContent = document.getElementById('resultContent');
+            
+            const riskScoreLabel = currentLang === 'tr' ? 'Risk Skoru:' : 'Risk Score:';
+
+            resultContent.innerHTML = `
+                <div class="risk-score">${icon} ${level}</div>
+                <div style="text-align: center; font-size: 1.5rem; margin-bottom: 1rem;">${riskScoreLabel} ${score}/100</div>
+                <p style="text-align: center; font-size: 1.1rem; font-weight: 600;">${message}</p>
+                ${factorsHtml}
+            `;
+
+            resultSection.className = 'result-section ' + className;
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Chatbot functions
+        function toggleChatbot() {
+            const container = document.getElementById('chatbotContainer');
+            container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function closeChatbot() {
+            document.getElementById('chatbotContainer').style.display = 'none';
+        }
+
+        function addBotMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chatbot-message bot';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chatbot-message user';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                
+                setTimeout(() => {
+                    const response = getBotResponse(message.toLowerCase());
+                    addBotMessage(response);
+                }, 800);
+            }
+        }
+
+        // Profesyonel güvenlik soruları sistemi
+        let securityQuestionState = {
+            currentQuestion: 0,
+            questions: [],
+            answers: [],
+            riskScore: 0,
+            paymentMethod: '',
+            isMandatory: false
+        };
+
+        function getBotResponse(message) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            // Zorunlu mod kontrolü
+            if (securityQuestionState.isMandatory) {
+                return handleSecurityQuestion(message);
+            }
+
+            // Normal chatbot yanıtları
+            const msgLower = message.toLowerCase();
+            
+            if (msgLower.includes('merhaba') || msgLower.includes('selam') || msgLower.includes('hello') || msgLower.includes('hi')) {
+                return t.chatbot_greeting;
+            } else if (msgLower.includes('risk') || msgLower.includes('güvenli') || msgLower.includes('safe') || msgLower.includes('security')) {
+                return t.chatbot_risk_help;
+            } else if (msgLower.includes('iban')) {
+                return t.chatbot_iban_help;
+            } else if (msgLower.includes('şifre') || msgLower.includes('pin') || msgLower.includes('password')) {
+                return t.chatbot_password_warning;
+            } else {
+                return t.chatbot_default;
+            }
+        }
+
+        function generateSecurityQuestions(paymentMethod, riskScore) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            
+            const questionsData = {
+                tr: {
+                    base: [
+                        {
+                            question: "Bu işlemi daha önce bu alıcıya yaptınız mı?",
+                            type: "yesno",
+                            riskWeight: 15
+                        },
+                        {
+                            question: "Alıcı kişi/kurumu şahsen tanıyor musunuz?",
+                            type: "yesno", 
+                            riskWeight: 20
+                        },
+                        {
+                            question: "Bu işlem talebi size nasıl ulaştı? (SMS, e-posta, telefon, yüz yüze vb.)",
+                            type: "text",
+                            riskWeight: 25
+                        }
+                    ],
+                    transfer: [
+                        {
+                            question: "Bu IBAN numarasını nereden aldınız?",
+                            type: "text",
+                            riskWeight: 20
+                        },
+                        {
+                            question: "EFT/Havale talimatını hangi kanaldan veriyorsunuz? (Şube, ATM, İnternet, Mobil)",
+                            type: "text",
+                            riskWeight: 10
+                        }
+                    ],
+                    mobile: [
+                        {
+                            question: "Mobil ödeme linkini hangi kanaldan aldınız? (SMS, WhatsApp, E-posta vb.)",
+                            type: "text",
+                            riskWeight: 30
+                        },
+                        {
+                            question: "Gönderen numarayı daha önce görüyor muydunuz?",
+                            type: "yesno",
+                            riskWeight: 25
+                        }
+                    ],
+                    card: [
+                        {
+                            question: "Bu üye işyerinden daha önce alışveriş yaptınız mı?",
+                            type: "yesno",
+                            riskWeight: 15
+                        },
+                        {
+                            question: "Web sitesinin adres çubuğunda kilit (🔒) simgesi görüyor musunuz?",
+                            type: "yesno",
+                            riskWeight: 20
+                        }
+                    ],
+                    highRisk: {
+                        question: "Son 24 saat içinde bu işlemle ilgili beklenmedik bir arama/mesaj aldınız mı?",
+                        type: "yesno",
+                        riskWeight: 30
+                    }
+                },
+                en: {
+                    base: [
+                        {
+                            question: "Have you made this transaction to this recipient before?",
+                            type: "yesno",
+                            riskWeight: 15
+                        },
+                        {
+                            question: "Do you personally know the recipient person/institution?",
+                            type: "yesno", 
+                            riskWeight: 20
+                        },
+                        {
+                            question: "How did this transaction request reach you? (SMS, email, phone, face-to-face, etc.)",
+                            type: "text",
+                            riskWeight: 25
+                        }
+                    ],
+                    transfer: [
+                        {
+                            question: "Where did you get this IBAN number from?",
+                            type: "text",
+                            riskWeight: 20
+                        },
+                        {
+                            question: "Which channel are you using for the EFT/Wire transfer? (Branch, ATM, Internet, Mobile)",
+                            type: "text",
+                            riskWeight: 10
+                        }
+                    ],
+                    mobile: [
+                        {
+                            question: "Which channel did you receive the mobile payment link from? (SMS, WhatsApp, Email, etc.)",
+                            type: "text",
+                            riskWeight: 30
+                        },
+                        {
+                            question: "Have you seen the sender's number before?",
+                            type: "yesno",
+                            riskWeight: 25
+                        }
+                    ],
+                    card: [
+                        {
+                            question: "Have you shopped from this merchant before?",
+                            type: "yesno",
+                            riskWeight: 15
+                        },
+                        {
+                            question: "Do you see a lock (🔒) icon in the website's address bar?",
+                            type: "yesno",
+                            riskWeight: 20
+                        }
+                    ],
+                    highRisk: {
+                        question: "Have you received any unexpected calls/messages related to this transaction in the last 24 hours?",
+                        type: "yesno",
+                        riskWeight: 30
+                    }
+                }
+            };
+
+            const lang = questionsData[currentLang];
+            let baseQuestions = [...lang.base];
+            let specificQuestions = [];
+
+            switch (paymentMethod) {
+                case 'transfer':
+                    specificQuestions = [...lang.transfer];
+                    break;
+                case 'mobile':
+                    specificQuestions = [...lang.mobile];
+                    break;
+                case 'credit':
+                case 'card':
+                    specificQuestions = [...lang.card];
+                    break;
+            }
+
+            if (riskScore >= 60) {
+                specificQuestions.push(lang.highRisk);
+            }
+
+            return [...baseQuestions, ...specificQuestions];
+        }
+
+        function handleSecurityQuestion(message) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            const currentQ = securityQuestionState.questions[securityQuestionState.currentQuestion];
+            
+            // Cevabı kaydet
+            securityQuestionState.answers.push({
+                question: currentQ.question,
+                answer: message,
+                timestamp: new Date().toISOString()
+            });
+
+            // Risk analizi
+            let additionalRisk = 0;
+            if (currentQ.type === "yesno") {
+                const isNegative = currentLang === 'tr' ? 
+                    (message.toLowerCase().includes('hayır') || message.toLowerCase().includes('yok')) :
+                    (message.toLowerCase().includes('no') || message.toLowerCase().includes('not'));
+                    
+                if (isNegative) {
+                    additionalRisk = currentQ.riskWeight;
+                }
+            } else {
+                // Metin cevapları için şüpheli kelime analizi
+                const suspiciousKeywords = currentLang === 'tr' ? 
+                    ['acil', 'hemen', 'çabuk', 'kazandınız', 'ödül', 'vergi', 'ceza', 'bloke', 'güncelleme'] :
+                    ['urgent', 'immediately', 'quickly', 'won', 'prize', 'tax', 'penalty', 'blocked', 'update'];
+                    
+                if (suspiciousKeywords.some(keyword => message.toLowerCase().includes(keyword))) {
+                    additionalRisk = currentQ.riskWeight;
+                }
+            }
+
+            securityQuestionState.riskScore += additionalRisk;
+
+            // Sonraki soruya geç
+            securityQuestionState.currentQuestion++;
+
+            if (securityQuestionState.currentQuestion < securityQuestionState.questions.length) {
+                // Bir sonraki soru
+                const nextQuestion = securityQuestionState.questions[securityQuestionState.currentQuestion];
+                setTimeout(() => {
+                    addBotMessage(`${securityQuestionState.currentQuestion + 1}/${securityQuestionState.questions.length}: ${nextQuestion.question}`);
+                    
+                    if (nextQuestion.type === "yesno") {
+                        setTimeout(() => {
+                            addBotMessage(t.yes_no_instruction);
+                        }, 800);
+                    }
+                }, 1000);
+                
+                return t.security_answer_recorded;
+            } else {
+                // Tüm sorular tamamlandı - analizi bitir
+                setTimeout(() => {
+                    completeSecurityAssessment();
+                }, 1500);
+                
+                return t.security_questions_complete;
+            }
+        }
+
+        function askSecurityQuestions(paymentMethod, riskScore) {
+            setTimeout(() => {
+                let question = '';
+                
+                switch (paymentMethod) {
+                    case 'transfer':
+                        question = 'Bu IBAN numarasını daha önce kullandınız mı? Alıcı kişi/kurumu tanıyor musunuz?';
+                        break;
+                    case 'mobile':
+                        question = 'Bu mobil ödeme linkini nereden aldınız? SMS/e-posta güvenilir bir kaynaktan mı geldi?';
+                        break;
+                    case 'credit':
+                    case 'card':
+                        question = 'Bu üye işyerini daha önce kullandınız mı? Web sitesinin güvenliğinden emin misiniz?';
+                        break;
+                    default:
+                        question = 'Bu işlemi daha önce yaptınız mı? İşlem detayları doğru mu?';
+                }
+                
+                addBotMessage(question);
+            }, 1500);
+        }
+
+        function completeSecurityAssessment() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            const finalRisk = securityQuestionState.riskScore;
+            let recommendation = '';
+            let action = '';
+
+            if (finalRisk >= 100) {
+                recommendation = `🚫 ${t.assessment_blocked}`;
+                action = t.assessment_blocked_action;
+            } else if (finalRisk >= 70) {
+                recommendation = `⚠️ ${t.assessment_high_risk}`;
+                action = t.assessment_manual_review_action;
+            } else if (finalRisk >= 40) {
+                recommendation = `🔍 ${t.assessment_additional_verification}`;
+                action = t.assessment_additional_security_action;
+            } else {
+                recommendation = `✅ ${t.assessment_security_complete}`;
+                action = t.assessment_approved_action;
+            }
+
+            addBotMessage(recommendation);
+            setTimeout(() => {
+                addBotMessage(action);
+            }, 1500);
+
+            setTimeout(() => {
+                addBotMessage(t.security_report_ready);
+                
+                // Zorunlu modu kapat
+                setTimeout(() => {
+                    resetChatbotToNormal();
+                    addBotMessage(t.security_control_complete);
+                }, 2000);
+            }, 3000);
+        }
+
+        function resetChatbotToNormal() {
+            const container = document.getElementById('chatbotContainer');
+            const header = container.querySelector('.chatbot-header');
+            const closeBtn = container.querySelector('.chatbot-close');
+            
+            // Normal mod ayarları
+            container.style.position = 'fixed';
+            container.style.top = '';
+            container.style.left = '';
+            container.style.transform = '';
+            container.style.bottom = '90px';
+            container.style.right = '20px';
+            container.style.width = '350px';
+            container.style.height = '500px';
+            container.style.border = 'none';
+            
+            // Header normal renge döndür
+            header.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+            closeBtn.style.display = 'block';
+            
+            // State sıfırla
+            securityQuestionState = {
+                currentQuestion: 0,
+                questions: [],
+                answers: [],
+                riskScore: 0,
+                paymentMethod: '',
+                isMandatory: false
+            };
+        }
+
+    // ZORUNLU CHATBOT MODU
+        function activateMandatoryMode(riskScore, paymentMethod) {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            const container = document.getElementById('chatbotContainer');
+            const header = container.querySelector('.chatbot-header');
+            const closeBtn = container.querySelector('.chatbot-close');
+            
+            // Güvenlik sorularını hazırla
+            securityQuestionState.questions = generateSecurityQuestions(paymentMethod, riskScore);
+            securityQuestionState.riskScore = riskScore;
+            securityQuestionState.paymentMethod = paymentMethod;
+            securityQuestionState.isMandatory = true;
+            securityQuestionState.currentQuestion = 0;
+            securityQuestionState.answers = [];
+            
+            // Zorunlu mod aktif et
+            container.style.display = 'flex';
+            container.style.position = 'fixed';
+            container.style.top = '50%';
+            container.style.left = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+            container.style.width = '450px';
+            container.style.height = '600px';
+            container.style.zIndex = '9999';
+            container.style.border = '3px solid #dc2626';
+            
+            // Header kırmızı yap
+            header.style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
+            closeBtn.style.display = 'none';
+            
+            // Mesajları temizle ve zorunlu mod başlat
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            addBotMessage(`🚨 ${t.mandatory_security_started}`);
+            setTimeout(() => {
+                addBotMessage(t.mandatory_security_risk.replace('{score}', riskScore));
+            }, 1000);
+            
+            setTimeout(() => {
+                addBotMessage(t.mandatory_security_total.replace('{total}', securityQuestionState.questions.length));
+            }, 2000);
+            
+            setTimeout(() => {
+                const firstQuestion = securityQuestionState.questions[0];
+                addBotMessage(`1/${securityQuestionState.questions.length}: ${firstQuestion.question}`);
+                
+                if (firstQuestion.type === "yesno") {
+                    setTimeout(() => {
+                        addBotMessage(t.yes_no_instruction);
+                    }, 800);
+                }
+            }, 3500);
+        }
+
+        // closeChatbot fonksiyonunu güncelleyin (MEVCUT FONKSİYONU DEĞİŞTİRİN)
+        function closeChatbot() {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const t = translations[currentLang];
+            
+            const container = document.getElementById('chatbotContainer');
+            
+            // Zorunlu mod kontrolü
+            if (securityQuestionState.isMandatory) {
+                showNotification('🚨 ' + (currentLang === 'tr' ? 'Güvenlik kontrolü tamamlanmadan kapatılamaz!' : 'Cannot close until security control is completed!'), 'error');
+                addBotMessage(`⚠️ ${t.security_cannot_close}`);
+                return;
+            }
+            
+            container.style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>
