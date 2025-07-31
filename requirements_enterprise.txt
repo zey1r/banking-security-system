@@ -1,0 +1,92 @@
+# Enterprise Banking Fraud Detection System
+# Production-Ready Requirements Package
+
+# Core Dependencies for Enterprise Banking Application
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+sqlalchemy==2.0.23
+alembic==1.12.1
+asyncpg==0.29.0              # PostgreSQL async driver
+redis==5.0.1
+celery==5.3.4                # Background task processing
+
+# Security & Authentication
+cryptography==41.0.8
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+pyotp==2.9.0                 # TOTP for 2FA
+
+# Machine Learning & AI
+scikit-learn==1.3.2
+numpy==1.25.2
+pandas==2.1.4
+joblib==1.3.2
+xgboost==2.0.2
+lightgbm==4.1.0
+catboost==1.2.2
+
+# Performance & Caching
+aioredis==2.0.1
+aiocache==0.12.2
+psutil==5.9.6
+
+# Database & ORM
+psycopg2-binary==2.9.9
+redis-py-cluster==2.1.3
+
+# Monitoring & Logging
+prometheus-client==0.19.0
+loguru==0.7.2
+sentry-sdk[fastapi]==1.38.0
+
+# HTTP & API
+httpx==0.25.2
+requests==2.31.0
+aiohttp==3.9.1
+
+# Data Validation & Serialization
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# Banking & Finance Specific
+python-iso3166==2.1.1        # Country codes
+python-stdnum==1.19          # IBAN validation
+forex-python==1.8           # Currency conversion
+
+# Date & Time Handling
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Development & Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+black==23.11.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Enterprise Features
+python-ldap==3.4.3          # LDAP authentication
+python-pam==2.0.2           # PAM authentication
+schedule==1.2.0             # Task scheduling
+
+# Compliance & Audit
+python-audit==1.1.0
+jsonschema==4.20.0
+
+# High Performance Computing
+cython==3.0.5
+numba==0.58.1
+
+# Message Queues
+pika==1.3.2                  # RabbitMQ
+kafka-python==2.0.2         # Apache Kafka
+
+# Container & Deployment
+gunicorn==21.2.0
+docker==6.1.3
+
+# Health Checks & Monitoring
+health-check==1.3.3
