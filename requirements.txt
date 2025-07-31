@@ -1,5 +1,2 @@
-# Ultra-Minimal for Render Free Tier
-fastapi==0.104.1
-uvicorn==0.24.0
-pydantic==2.5.0
-python-multipart==0.0.6
+fastapi
+uvicorn
