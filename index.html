@@ -3305,5 +3305,236 @@ function showDeployedAPIResult(apiResult) {
 console.log('🌍 Deployed API integration loaded successfully!');
 console.log('🚀 Ready to connect to:', API_CONFIG.baseUrl);
 </script>
+    <script>
+// API Configuration for deployed Render.com backend
+const API_CONFIG = {
+    baseUrl: 'https://fraud-detection-api-exez.onrender.com',
+    timeout: 10000
+};
+
+// API Integration Function
+async function callDeployedAPI(transactionData) {
+    try {
+        console.log('🌍 Calling deployed API:', API_CONFIG.baseUrl);
+        
+        const response = await fetch(`${API_CONFIG.baseUrl}/fraud-detection/analyze`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(transactionData)
+        });
+
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('✅ API Response:', result);
+        return result;
+        
+    } catch (error) {
+        console.error('❌ API Call Failed:', error);
+        throw error;
+    }
+}
+
+// Enhanced showDeployedAPIResult with multi-language support
+function showDeployedAPIResult(apiResult) {
+    const currentLang = localStorage.getItem('language') || 'tr';
+    const t = translations[currentLang];
+    
+    const score = Math.round(apiResult.risk_score * 100);
+    const level = apiResult.risk_level.toUpperCase();
+    const isFraud = apiResult.is_fraud;
+    
+    let message, className, icon;
+
+    if (isFraud || score >= 80) {
+        message = t.transaction_evaluation_high;
+        className = 'result-high';
+        icon = '🚫';
+    } else if (score >= 60) {
+        message = t.transaction_evaluation_medium;
+        className = 'result-medium';
+        icon = '⚠️';
+    } else if (score >= 40) {
+        message = t.risk_careful;
+        className = 'result-medium';
+        icon = '⚠️';
+    } else {
+        message = t.transaction_evaluation_low;
+        className = 'result-low';
+        icon = '✅';
+    }
+
+    const resultSection = document.getElementById('resultSection');
+    const resultContent = document.getElementById('resultContent');
+
+    resultContent.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="text-align: left;">
+                <div class="risk-score">${icon} ${level}</div>
+                <div style="font-size: 1.2rem; color: #666;">${t.deployed_api_analysis}</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 2rem; font-weight: 700;">${score}/100</div>
+                <div style="font-size: 0.9rem; color: #666;">${t.risk_score_label.replace(':', '')}</div>
+            </div>
+        </div>
+        
+        <p style="text-align: center; font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">${message}</p>
+        
+        <div style="background: rgba(255,255,255,0.8); padding: 0.75rem; border-radius: 6px; margin: 1rem 0;">
+            <div style="font-size: 0.85rem; color: #666;">
+                🌍 API: Render.com Production |
+                🆔 ID: ${apiResult.transaction_id} |
+                🔒 ${currentLang === 'tr' ? 'Güven' : 'Confidence'}: ${(apiResult.confidence * 100).toFixed(1)}%
+            </div>
+        </div>
+        
+        <div style="background: rgba(255,255,255,0.8); padding: 0.75rem; border-radius: 6px; margin: 1rem 0;">
+            <div style="font-size: 0.9rem; color: #333;">
+                📊 <strong>${currentLang === 'tr' ? 'API Mesajı' : 'API Message'}:</strong> ${apiResult.message}
+            </div>
+        </div>
+    `;
+
+    resultSection.className = 'result-section ' + className;
+    resultSection.style.display = 'block';
+    resultSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Enhanced updateBankDeviceDetails with multi-language support
+function updateBankDeviceDetailsEnhanced(lang) {
+    const t = translations[lang];
+    
+    const deviceTypeEl = document.getElementById('deviceType');
+    if (deviceTypeEl && deviceSecurityData.registeredDevice) {
+        deviceTypeEl.textContent = `${deviceSecurityData.registeredDevice.type} 📱`;
+    }
+    
+    const browserInfoEl = document.getElementById('browserInfo');
+    if (browserInfoEl && deviceSecurityData.browserInfo) {
+        browserInfoEl.textContent = `${deviceSecurityData.browserInfo.name} ${deviceSecurityData.browserInfo.version}`;
+    }
+    
+    const osInfoEl = document.getElementById('osInfo');
+    if (osInfoEl && deviceSecurityData.registeredDevice) {
+        osInfoEl.textContent = `${t.registered_device} ✅`;
+    }
+    
+    const securityFeaturesEl = document.getElementById('securityFeatures');
+    if (securityFeaturesEl && deviceSecurityData.connectionSecurity) {
+        securityFeaturesEl.textContent = `HTTPS ✅ TLS 1.3 ✅`;
+    }
+}
+
+// Override the existing analyzeTransaction function
+const originalAnalyzeTransaction = window.analyzeTransaction;
+window.analyzeTransaction = async function() {
+    // Start performance monitoring
+    perfMonitor.startAnalysis();
+    
+    // Rate limiting check
+    if (!checkRateLimit()) {
+        perfMonitor.endAnalysis();
+        return;
+    }
+    
+    const amount = parseFloat(document.getElementById('amount').value);
+    const paymentMethod = document.getElementById('payment').value;
+    const receiverName = document.getElementById('receiverName').value;
+    const description = document.getElementById('description').value;
+    const ibanInput = document.getElementById('iban');
+    
+    // Get original IBAN if masked
+    let iban = ibanInput.value;
+    if (ibanInput.getAttribute('data-masked') === 'true') {
+        iban = ibanInput.getAttribute('data-original');
+    }
+    
+    const transactionDate = document.getElementById('transactionDate').value;
+    const currentLang = localStorage.getItem('language') || 'tr';
+
+    // Enhanced Validation
+    if (!amount || amount <= 0) {
+        showNotification(currentLang === 'tr' ? 'Lütfen geçerli bir tutar giriniz.' : 'Please enter a valid amount.', 'error');
+        perfMonitor.endAnalysis();
+        return;
+    }
+
+    if (!paymentMethod || !receiverName.trim() || !iban) {
+        showNotification(currentLang === 'tr' ? 'Lütfen tüm alanları doldurunuz.' : 'Please fill in all fields.', 'error');
+        perfMonitor.endAnalysis();
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = document.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = currentLang === 'tr' ? '⏳ Deployed API analizi yapılıyor...' : '⏳ Deployed API analysis in progress...';
+    submitBtn.disabled = true;
+
+    try {
+        // Prepare data for deployed API
+        const apiData = {
+            transaction_id: `TXN_${Date.now()}`,
+            amount: amount.toString(),
+            currency: "TRY",
+            location: "Istanbul, Turkey",
+            merchant_category: paymentMethod === 'mobile' ? 'mobile_payment' : 
+                             paymentMethod === 'transfer' ? 'transfer' : 'retail',
+            recipient_name: receiverName,
+            description: description || 'Web transaction',
+            payment_method: paymentMethod,
+            iban: iban.replace(/\s/g, ''),
+            timestamp: new Date().toISOString()
+        };
+
+        // Call deployed API
+        const apiResult = await callDeployedAPI(apiData);
+        
+        // Show API result with multi-language support
+        showDeployedAPIResult(apiResult);
+        
+        // Activate mandatory chatbot for high risk
+        if (apiResult.risk_score >= 0.4) {
+            setTimeout(() => {
+                activateMandatoryMode(apiResult.risk_score * 100, paymentMethod);
+            }, 1500);
+        }
+        
+    } catch (error) {
+        console.error('Deployed API failed, using fallback:', error);
+        const errorMsg = currentLang === 'tr' ? 
+            '🌍 Deployed API bağlantısı başarısız, yerel analiz yapılıyor...' : 
+            '🌍 Deployed API connection failed, performing local analysis...';
+        showNotification(errorMsg, 'error');
+        
+        // Fallback to original local analysis
+        const riskResult = calculateRisk({
+            amount, paymentMethod, receiverName, description, iban
+        });
+        showResult(riskResult);
+        
+    } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        perfMonitor.endAnalysis();
+    }
+};
+
+// Override updateBankDeviceDetails function to use enhanced version
+const originalUpdateBankDeviceDetails = window.updateBankDeviceDetails;
+window.updateBankDeviceDetails = function(lang) {
+    updateBankDeviceDetailsEnhanced(lang);
+};
+
+console.log('🌍 Enhanced Deployed API integration with multi-language support loaded!');
+console.log('🚀 Ready to connect to:', API_CONFIG.baseUrl);
+</script>
 </body>
 </html>
